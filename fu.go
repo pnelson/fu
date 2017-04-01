@@ -60,6 +60,7 @@ func (c *Client) Upload(f *os.File, name string, d time.Duration) (*api.File, er
 	}
 	req.Header.Set("User-Agent", "fu")
 	req.Header.Set("Content-Type", header)
+	req.Header.Set("Authentication", "fu token="+c.token)
 	client := &http.Client{Timeout: 90 * time.Second}
 	resp, err := client.Do(req)
 	if err != nil {

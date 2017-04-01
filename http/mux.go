@@ -1,6 +1,7 @@
 package http
 
 import (
+	"crypto/subtle"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -56,6 +57,14 @@ func (m *mux) put(w http.ResponseWriter, req *http.Request) {
 		abort(w, http.StatusNotFound)
 		return
 	}
+	token := req.Header.Get("Authentication")
+	if strings.HasPrefix(token, `fu token=`) {
+		token = token[9:]
+	}
+	if subtle.ConstantTimeCompare(m.core.Config.Token, []byte(token)) != 1 {
+		abort(w, http.StatusForbidden)
+		return
+	}
 	err := req.ParseMultipartForm(m.core.Config.MaxUploadSize)
 	if err != nil {
 		resolve(w, err)
@@ -72,7 +81,6 @@ func (m *mux) put(w http.ResponseWriter, req *http.Request) {
 	}
 	defer file.Close()
 	form := api.UploadForm{
-		Token:    strings.TrimSpace(req.FormValue("token")),
 		Duration: duration,
 		File:     file,
 		Ext:      filepath.Ext(h.Filename),

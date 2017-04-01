@@ -1,7 +1,6 @@
 package api
 
 import (
-	"crypto/subtle"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -71,7 +70,6 @@ func NewCore(config Config) (*Core, error) {
 
 // UploadForm represents a file upload form.
 type UploadForm struct {
-	Token    string
 	Duration time.Duration
 	File     io.Reader
 	Ext      string
@@ -79,9 +77,6 @@ type UploadForm struct {
 
 // Put uploads a new file and returns the metadata.
 func (c *Core) Put(form UploadForm) (*File, error) {
-	if subtle.ConstantTimeCompare(c.Config.Token, []byte(form.Token)) != 1 {
-		return nil, fmt.Errorf("fu: invalid key %v", form.Token)
-	}
 	f := &File{CreatedAt: time.Now().UTC()}
 	f.ExpiresAt = f.CreatedAt.Add(form.Duration)
 	f.setName(form.Ext)
