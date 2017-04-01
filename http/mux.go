@@ -58,7 +58,7 @@ func (m *mux) put(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	token := req.Header.Get("Authentication")
-	if strings.HasPrefix(token, `fu token=`) {
+	if strings.HasPrefix(token, "fu token=") {
 		token = token[9:]
 	}
 	if subtle.ConstantTimeCompare(m.core.Config.Token, []byte(token)) != 1 {
