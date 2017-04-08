@@ -64,6 +64,7 @@ func NewCore(config Config) (*Core, error) {
 	c := &Core{
 		Config: config,
 		db:     db,
+		quit:   make(chan struct{}),
 	}
 	return c, nil
 }
