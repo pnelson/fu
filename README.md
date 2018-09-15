@@ -13,6 +13,6 @@ $ fu -s -addr=":3000" -token="secret"
 ```sh
 $ export FU_ADDR="http://localhost:3000"
 $ export FU_TOKEN="secret"
-$ fu -d 2w main.go
+$ fu -d 2h main.go
 $ exiftool -all= -o - ~/tmp/IMG_20160420_162000.jpg | fu -
 ```
