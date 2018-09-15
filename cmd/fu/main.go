@@ -32,7 +32,7 @@ var (
 func init() {
 	log.SetFlags(0)
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: %s [OPTION]... FILE\n\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "Usage: %s [OPTION]... [FILE]\n\n", os.Args[0])
 		fmt.Fprintf(os.Stderr, "When FILE is -, read from stdin.\n\n")
 		flag.PrintDefaults()
 		fmt.Fprintf(os.Stderr, "\nExamples:\n")
